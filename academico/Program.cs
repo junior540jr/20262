@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IAlunoRepository, InMemoryRepository>();
+builder.Services.AddSingleton<IProjetoRepository, InMemoryRepositoryProjeto>();
 
 var app = builder.Build();
 
