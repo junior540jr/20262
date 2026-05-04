@@ -5,97 +5,92 @@ using System.Threading.Tasks;
 
 namespace academico.Controllers
 {
-    public class AlunoController : Controller
+    public class ProjetoController : Controller
     {
-        private readonly IAlunoRepository _alunoRepository;
-        public AlunoController(IAlunoRepository repository)
+        private readonly IProjetoRepository _projetoRepository;
+        public ProjetoController(IProjetoRepository repository)
         {
-            _alunoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _projetoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
-
         public IActionResult Create()
         {
-            return View(new Aluno());
+            return View(new Projeto());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Aluno aluno)
+        public async Task<IActionResult> Create(Projeto projeto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(aluno);
+                    return View(projeto);
                 }
-                await _alunoRepository.Create(aluno);
+                await _projetoRepository.Create(projeto);
                 return RedirectToAction(nameof(Index));
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, $"Ocorreu um erro ao criar o aluno: {ex.Message}");
             }
-            return View(aluno);
+            return View(projeto);
         }
-
-
         public async Task<IActionResult> Index()
         {
-            var alunos = await _alunoRepository.GetAll();
-            return View(alunos);
+            var projeto = await _projetoRepository.GetAll();
+            return View(projeto);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var aluno = await _alunoRepository.GetId(id);
-            if (aluno == null)
+            var projeto = await _projetoRepository.GetId(id);
+            if (projeto == null)
                 return NotFound();
 
-            return View(aluno);
+            return View(projeto);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Aluno aluno)
+        public async Task<IActionResult> Edit(int id, Projeto projeto)
         {
-            if(id != aluno.AlunoId)
+            if (id != projeto.ProjetoId)
             {
                 return BadRequest();
             }
             if (!ModelState.IsValid)
             {
-                return View(aluno);
+                return View(projeto);
             }
-            await _alunoRepository.Edit(aluno);
+            await _projetoRepository.Edit(projeto);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var aluno = await _alunoRepository.GetId(id);
-            if (aluno == null)
+            var projeto = await _projetoRepository.GetId(id);
+            if (projeto == null)
                 return NotFound();
 
-            return View(aluno);
+            return View(projeto);
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var aluno = await _alunoRepository.GetId(id);
-            if (aluno == null)
+            var projeto = await _projetoRepository.GetId(id);
+            if (projeto == null)
                 return NotFound();
 
-            return View(aluno);
+            return View(projeto);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _alunoRepository.Delete(id);
+            await _projetoRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
