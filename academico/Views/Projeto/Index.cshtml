@@ -1,0 +1,54 @@
+﻿@model IEnumerable<academico.Models.Projeto>
+
+@{
+    ViewData["Title"] = "Listagem dos Projetos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Adicionar Projeto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sigla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ano)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusProjeto)
+            </th>
+ 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sigla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ano)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusProjeto)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ProjetoId }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.ProjetoId }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.ProjetoId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
